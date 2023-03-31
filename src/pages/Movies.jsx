@@ -1,28 +1,39 @@
 import { useEffect, useState } from "react";
 import MoviesList from "../components/MoviesList";
-const movies = [
-  {
-    id: 1,
-    title: "Forrest Gump",
-    length: 8520,
-    year: 1994,
-    director: "Robert Zemeckis",
-  },
-];
 
 const Movies = () => {
   const [isLoading, setIsLoading] = useState(true);
-  // useEffect(() => {
-  //   fetch("https://159.122.183.100:32341/api/v1.0/films")
-  //     .then((response) => response.json())
-  //     .then((movies) => console.log(movies));
-  // }, []);
+  const [movies, setMovies] = useState([])
+  const [error, setError] = useState(false)
+
+  useEffect(() => {
+
+    const fetchData = async () => {
+      const data = await fetch("http://127.0.0.1:8080/movies")
+        .catch(() => setError(true))
+      setIsLoading(false)
+      console.log('------')
+      console.log(data.ok)
+      if (data.ok) {
+        const movies = await data.json();
+        setMovies(movies);
+      } else {
+        setError(true)
+      }
+    }
+
+    fetchData()
+  }, []);
 
   return (
     <>
-      {/* <h1>Cargando...</h1> */}
-      <h3>Movies List</h3>
-      <MoviesList movies={movies}></MoviesList>
+      { isLoading ? <h1>Cargando...</h1> :
+        error ? <h1>"Ups! Something went wrong."</h1> :
+        <>
+          <h3>Movies List</h3>
+          <MoviesList movies={movies}></MoviesList>
+        </>
+      }
     </>
   );
 };
