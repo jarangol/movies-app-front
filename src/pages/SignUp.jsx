@@ -1,4 +1,4 @@
-import { Button, FormControl, FormLabel, Input } from "@mui/material";
+import { Button, FormControl, FormGroup, FormLabel, Input } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -23,10 +23,15 @@ const SignUp = () => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        email, password, displayName: name
+        email,
+        password,
+        displayName: name
       })
     };
-    const response = await fetch('http://127.0.0.1:3001/users', requestOptions)
+    const response = await fetch(
+      'http://127.0.0.1:3001/users',
+      requestOptions
+    );
     const { ok } = response
     const { errorMessage } = await response.json()
     const message = ok ? 'User registered successfully.' : errorMessage;
@@ -40,44 +45,45 @@ const SignUp = () => {
     <>
       <h1>Sign up</h1>
       <Box height={50}></Box>
-      <FormControl>
-      <FormLabel>Name</FormLabel>
-        <Input
-          type="text"
-          required="true"
-          value={name}
-          onChange={({ target }) => {
-            setName(target.value)
-          }}
-        >
-        </Input>
+        <FormGroup>
+          <FormLabel>Name</FormLabel>
+          <Input
+            type="text"
+            value={name}
+            onChange={({ target }) => {
+              setName(target.value);
+            } }
+          >
+          </Input>
+        </FormGroup>
         <Box height={20}></Box>
-        <FormLabel>Email</FormLabel>
-        <Input
-          type="email"
-          required="true"
-          value={email}
-          onChange={({ target }) => {
-            setEmail(target.value)
-          }}
-        >
-        </Input>
+        <FormGroup>
+          <FormLabel>Email</FormLabel>
+          <Input
+            type="email"
+            value={email}
+            onChange={({ target }) => {
+              setEmail(target.value);
+            } }
+          >
+          </Input>
+        </FormGroup>
         <Box height={20}></Box>
-        <FormLabel>Password</FormLabel>
-        <Input
-          type="password"
-          required="true"
-          value={password}
-          onChange={({ target }) => {
-            setPassword(target.value)
-          }}
-        >
-        </Input>
-        <Box height={40}></Box>
-        <Button onClick={submit}>Submit</Button>
+        <FormGroup>
+          <FormLabel>Password</FormLabel>
+          <Input
+            type="password"
+            value={password}
+            onChange={({ target }) => {
+              setPassword(target.value);
+            } }
+          >
+          </Input>
+        </FormGroup>
+        <Box height={40}>
+        </Box><Button onClick={submit}>Submit</Button>
         <Box height={20}></Box>
         <Button onClick={cancel}>Cancel</Button>
-      </FormControl>
     </>
   )
 };

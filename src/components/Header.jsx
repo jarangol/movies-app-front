@@ -8,10 +8,10 @@ export const Header = ({title}) => {
   const handleSignUp = () => navigate(`/sign-up`);
 
   return (
-    <div class="header">
-      <div class="column"></div>
-      <div class="column">{title}</div>
-      <div class="auth column">
+    <div className="header">
+      <div className="column"></div>
+      <div className="column">{title}</div>
+      <div className="auth column">
         <Button onClick={handleSignUp}>Sign up</Button>
       </div>
 
