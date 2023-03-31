@@ -1,0 +1,14 @@
+.header {
+  padding: 1px;
+  background: #1abc9c;
+  color: white;
+  text-align: center;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+
+.auth {
+  right: 0;  
+}
