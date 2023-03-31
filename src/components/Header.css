@@ -1,5 +1,5 @@
 .header {
-  padding: 1px;
+  padding: 20px 0;
   background: #1abc9c;
   color: white;
   text-align: center;
@@ -8,7 +8,12 @@
   justify-content: center;
 }
 
+.column {
+  float: left;
+  width: 33.33%;
+}
 
 .auth {
-  right: 0;  
+  text-align: right;
+  color: white;
 }
