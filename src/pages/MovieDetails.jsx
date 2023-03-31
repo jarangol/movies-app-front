@@ -1,47 +1,43 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
 const MovieDetails = () => {
-  const movie = {
-    id: 1,
-    title: "Forrest Gump",
-    length: 8520,
-    year: 1994,
-    director: "Robert Zemeckis",
-    actors: [
-      {
-        id: 3,
-        name: "Gary Sinise",
-      },
-      {
-        id: 6,
-        name: "Michael Conner Humphreys",
-      },
-      {
-        id: 4,
-        name: "Mykelti Williamson",
-      },
-      {
-        id: 2,
-        name: "Robin Wright",
-      },
-      {
-        id: 5,
-        name: "Sally Field",
-      },
-      {
-        id: 1,
-        name: "Tom Hanks",
-      },
-    ],
-  };
+  const params = useParams()
+  const movieId = params.movieId;
+  const [isLoading, setIsLoading] = useState(true);
+  const [movie, setMovie] = useState({})
+  const [error, setError] = useState(false)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetch("http://127.0.0.1:8080/movies/"+movieId)
+        .catch(() => setError(true))
+      setIsLoading(false)
+      setError(!data.ok)
+      if (data.ok) {
+        const movie = await data.json();
+        setMovie(movie);
+      }
+    }
+
+    fetchData()
+  }, []);
+
   return (
     <>
-      <h2>{movie.title}</h2>
-      <h3>Directed by: {movie.director}</h3>
-      <h3>Year: {movie.year}</h3>
-      <h3>Length: {movie.length}</h3>
-      <h3>Actors:</h3>
-      {movie.actors.map((actor) => (
-        <p key={actor.id}>{actor.name}</p>
-      ))}
+      { isLoading ? <h1>Loading...</h1> :
+        error ? <h1>"Ups! Something went wrong."</h1> :
+      <>
+        <h2>{movie.title}</h2>
+        <h3>Directed by: {movie.director}</h3>
+        <h3>Year: {movie.year}</h3>
+        <h3>Length: {movie.length}</h3>
+        <h3>Actors:</h3>
+        {movie?.actors?.map((actor) => (
+          <p key={actor.id}>{actor.name}</p>
+        ))}
+      </>
+    }
     </>
   );
 };

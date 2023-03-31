@@ -7,18 +7,14 @@ const Movies = () => {
   const [error, setError] = useState(false)
 
   useEffect(() => {
-
     const fetchData = async () => {
       const data = await fetch("http://127.0.0.1:8080/movies")
         .catch(() => setError(true))
       setIsLoading(false)
-      console.log('------')
-      console.log(data.ok)
+      setError(!data.ok)
       if (data.ok) {
         const movies = await data.json();
         setMovies(movies);
-      } else {
-        setError(true)
       }
     }
 
@@ -27,7 +23,7 @@ const Movies = () => {
 
   return (
     <>
-      { isLoading ? <h1>Cargando...</h1> :
+      { isLoading ? <h1>Loading...</h1> :
         error ? <h1>"Ups! Something went wrong."</h1> :
         <>
           <h3>Movies List</h3>

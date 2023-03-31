@@ -13,7 +13,7 @@ function App() {
         <Header title={"Movies App"}></Header>
         <Routes>
             <Route index element={<Movies />} />
-            <Route path="/movies/:id" element={<MovieDetails />} />
+            <Route path="/movies/:movieId" element={<MovieDetails />} />
             <Route path="/movies" element={<Movies />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="*" element={<NoPage />} />
