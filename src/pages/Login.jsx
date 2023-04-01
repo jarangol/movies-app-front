@@ -1,61 +1,40 @@
 import { Button, FormGroup, FormLabel, Input } from "@mui/material";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { Box } from "@mui/system";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { auth } from '../firebase';
+import { startSession } from "../storage/session";
 
-const SignUp = () => {
-  const navigate = useNavigate();
-
-  const cancel = () => navigate(-1);
-
+const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [name, setName] = useState('')
+
+  const navigate = useNavigate();
+  const onCancel = () => navigate(-1);
 
   const clearFields = () => {
     setEmail('')
     setPassword('')
-    setName('')
   }
 
   const submit = async () => {
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email,
-        password,
-        displayName: name
-      })
-    };
-    const response = await fetch(
-      'http://127.0.0.1:3001/users',
-      requestOptions
-    );
-    const { ok } = response
-    const { errorMessage } = await response.json()
-    const message = ok ? 'User registered successfully.' : errorMessage;
-    alert(message);
-    if (ok) {
-      clearFields()
-      cancel()
-    }
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        startSession(userCredential.user);
+        clearFields();
+        navigate('/');
+      }).catch((error) => {
+        // const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(errorMessage)
+      });
   }
+
   return (
     <>
-      <h1>Sign up</h1>
+      <h1>Login</h1>
       <Box height={50}></Box>
-        <FormGroup>
-          <FormLabel>Name</FormLabel>
-          <Input
-            type="text"
-            value={name}
-            onChange={({ target }) => {
-              setName(target.value);
-            } }
-          >
-          </Input>
-        </FormGroup>
         <Box height={20}></Box>
         <FormGroup>
           <FormLabel>Email</FormLabel>
@@ -83,9 +62,9 @@ const SignUp = () => {
         <Box height={40}>
         </Box><Button onClick={submit}>Submit</Button>
         <Box height={20}></Box>
-        <Button onClick={cancel}>Cancel</Button>
+        <Button onClick={onCancel}>Cancel</Button>
     </>
   )
 };
 
-export default SignUp;
+export default Login;
