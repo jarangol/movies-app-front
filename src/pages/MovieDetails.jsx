@@ -10,7 +10,7 @@ const MovieDetails = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetch("http://127.0.0.1:8080/movies/"+movieId)
+      const data = await fetch("http://192.168.64.2:31002/movies/"+movieId)
         .catch(() => setError(true))
       setIsLoading(false)
       setError(!data.ok)

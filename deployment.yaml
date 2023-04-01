@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: movies-app-front
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: movies-app-front
+  template:
+    metadata:
+      labels:
+        app: movies-app-front
+    spec:
+      containers:
+      - name: movies-app-front
+        image: movies-app-front
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3000

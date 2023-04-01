@@ -1,3 +1,5 @@
+import { onAuthStateChanged } from 'firebase/auth';
+import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import { Header } from './components/Header';
@@ -8,8 +10,18 @@ import MovieDetails from './pages/MovieDetails';
 import Movies from './pages/Movies';
 import NoPage from './pages/NoPage';
 import SignUp from './pages/SignUp';
+import { auth } from './firebase';
+import Protected from './hooks/Protected'
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
+
+  useEffect(()=>{
+    onAuthStateChanged(auth, (user) => {
+      setIsLoggedIn(!!user)
+    });
+  }, [])
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -20,8 +32,16 @@ function App() {
           <Route path="/movies" element={<Movies />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/cinemas/:cinemaId" element={<CinemaDetails />} />
-          <Route path="/cinemas" element={<Cinemas />} />
+          <Route path="/cinemas/:cinemaId" element={
+            <Protected isLoggedIn={isLoggedIn}>
+              <CinemaDetails />
+            </Protected>
+          }></Route>
+          <Route path="/cinemas" element={
+            <Protected isLoggedIn={isLoggedIn}>
+              <Cinemas />
+            </Protected>
+          }></Route>
           <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>

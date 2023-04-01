@@ -8,6 +8,8 @@ const SignUp = () => {
 
   const cancel = () => navigate(-1);
 
+  const goHome = () => navigate('/')
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
@@ -29,16 +31,16 @@ const SignUp = () => {
       })
     };
     const response = await fetch(
-      'http://127.0.0.1:3001/users',
+      'http://192.168.64.2:31000/users',
       requestOptions
-    );
+    ).catch(() => alert("Error"));
     const { ok } = response
     const { errorMessage } = await response.json()
     const message = ok ? 'User registered successfully.' : errorMessage;
     alert(message);
     if (ok) {
       clearFields()
-      cancel()
+      goHome()
     }
   }
   return (

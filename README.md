@@ -70,3 +70,9 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 # movies-app-front
 # movies-app-front
+
+docker build -t jarangolp/movies-app-front .
+minikube image load jarangolp/movies-app-front
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+

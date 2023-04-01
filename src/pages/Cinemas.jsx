@@ -8,7 +8,7 @@ const Cinemas = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetch("http://127.0.0.1:3080/cinemas")
+      const data = await fetch("http://192.168.64.2:31003/cinemas")
         .catch(() => setError(true))
       setIsLoading(false)
       setError(!data.ok)

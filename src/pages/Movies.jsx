@@ -14,7 +14,7 @@ const Movies = () => {
   const handleAvailability = () => navigate('/cinemas')
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetch("http://127.0.0.1:8080/movies")
+      const data = await fetch("http://192.168.64.2:31002/movies")
         .catch(() => setError(true))
       setIsLoading(false)
       setError(!data.ok)
