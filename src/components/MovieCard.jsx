@@ -1,11 +1,12 @@
 import "./MovieCard.css";
 
 const MovieCard = ({ movie, onClick }) => {
+  const { title, year, director } = movie;
   return (
     <div className="movie-card" onClick={onClick}>
-      <div>{movie.title}</div>
-      <div>{movie.year}</div>
-      <div>{movie.director}</div>
+      <div>{title}</div>
+      <div>{year}</div>
+      <div>{director}</div>
     </div>
   );
 };
